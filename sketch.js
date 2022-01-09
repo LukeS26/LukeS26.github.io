@@ -8,22 +8,22 @@ function setup() {
 
   angle = createSlider(0, 45, 15);
   aLabel = createDiv("Angle");
-  aLabel.position(0, height);
+  aLabel.position(0, height+25);
   angle.parent(aLabel);
 
   speed = createSlider(0, 10, 7, 0.1);
   sLabel = createDiv("Speed");
-  sLabel.position(250, height);
+  sLabel.position(250, height+25);
   speed.parent(sLabel);
 
   x = createSlider(0, 320, 220);
   xLabel = createDiv("Dist");
-  xLabel.position(0, height + 50);
+  xLabel.position(0, height + 75);
   x.parent(xLabel);
   
   h = createSlider(0, 5, 4, 0.1);
   hLabel = createDiv("Height");
-  hLabel.position(250, height + 50);
+  hLabel.position(250, height + 75);
   h.parent(hLabel);
 }
 
