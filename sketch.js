@@ -6,7 +6,7 @@ let scl = 100;
 function setup() {
   createCanvas(1000, 400);
 
-  angle = createSlider(0, 45, 15);
+  angle = createSlider(0, 45, 15, 0.1);
   aLabel = createDiv("Angle");
   aLabel.position(25, height + 25);
   angle.parent(aLabel);
@@ -16,7 +16,7 @@ function setup() {
   sLabel.position(275, height + 25);
   speed.parent(sLabel);
 
-  x = createSlider(0, 320, 420);
+  x = createSlider(0, 320, 420, 0.1);
   xLabel = createDiv("Dist");
   xLabel.position(25, height + 75);
   x.parent(xLabel);
@@ -26,7 +26,7 @@ function setup() {
   hLabel.position(275, height + 75);
   h.parent(hLabel);
   
-  initX = createSlider(-4, 4, 0, 0.1);
+  initX = createSlider(-3.5, 3.5, 0, 0.1);
   ixLabel = createDiv("Initial Speed");
   ixLabel.position(25, height + 125);
   initX.parent(ixLabel);
