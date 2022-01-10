@@ -4,7 +4,7 @@ let angle, speed, x, h;
 let scl = 100;
 
 function setup() {
-  createCanvas(800, 400);
+  createCanvas(1000, 400);
 
   angle = createSlider(0, 45, 15);
   aLabel = createDiv("Angle");
