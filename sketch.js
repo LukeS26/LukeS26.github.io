@@ -101,14 +101,14 @@ function calcSpeed() {
   let velocity = new Vector(initX.value(), 0, 0);
   let a = (Math.PI / 2) - radians(angle.value()); // 15 degrees
   let targetHeight = 2.6416;
-  let shootingHeight = h.value() * Math.sin(a) * 0.3048;
-  let x1 = ((width / 2 - x.value()) / scl) + (0.6096);
+  let shootingHeight = h.value() * sin(a) * 0.3048;
+  let x1 = ((width / 2 - x.value()) / scl) + (0.6096) - (h.value() * 0.3048 * cos(a));
 
   let result = (targetHeight - shootingHeight);
   let chosenSpeed = 5;
   let error = result - eq(chosenSpeed, a, velocity, x1);
   let t = Date.now();
-  while(Math.abs(error) > 0.1) {
+  while(Math.abs(error) > 0.01) {
     if(error > 0) {
       chosenSpeed += chosenSpeed/2;
     } else {
