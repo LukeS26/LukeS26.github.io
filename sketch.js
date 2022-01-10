@@ -11,7 +11,7 @@ function setup() {
   aLabel.position(25, height + 25);
   angle.parent(aLabel);
 
-  speed = createSlider(0, 10, 7, 0.1);
+  speed = createSlider(0, 13, 7, 0.1);
   sLabel = createDiv("Speed");
   sLabel.position(275, height + 25);
   speed.parent(sLabel);
@@ -53,6 +53,9 @@ function draw() {
   }
 
   fill(0);
+  
+  calcSpeed();
+  
   textSize(32);
   text(speed.value() + "m/s", 10, 30);
   text(angle.value() + "°", 10, 60);
@@ -99,11 +102,11 @@ function calcSpeed() {
   let a = (Math.PI / 2) - radians(angle.value()); // 15 degrees
   let targetHeight = 2.6416;
   let shootingHeight = h.value() * 0.3048;
-  let x = ((width / 2 - x.value()) / scl) + (0.6096);
+  let x1 = ((width / 2 - x.value()) / scl) + (0.6096);
 
   let result = (targetHeight - shootingHeight);
   let chosenSpeed = 5;
-  let error = result - eq(chosenSpeed, a, velocity, x);
+  let error = result - eq(chosenSpeed, a, velocity, x1);
   let t = Date.now();
   while(Math.abs(error) > 0.1) {
     if(error > 0) {
@@ -112,7 +115,7 @@ function calcSpeed() {
       chosenSpeed -= chosenSpeed/2;
     }
 
-    error = result - eq(chosenSpeed, a, velocity, x);
+    error = result - eq(chosenSpeed, a, velocity, x1);
     //System.out.println(error + ", " + chosenSpeed);
   }
 
