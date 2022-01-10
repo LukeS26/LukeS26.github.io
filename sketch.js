@@ -11,7 +11,7 @@ function setup() {
   aLabel.position(25, height + 25);
   angle.parent(aLabel);
 
-  speed = createSlider(0, 13, 7, 0.1);
+  speed = createSlider(0, 13, 7, 0.01);
   sLabel = createDiv("Speed");
   sLabel.position(275, height + 25);
   speed.parent(sLabel);
@@ -101,7 +101,7 @@ function calcSpeed() {
   let velocity = new Vector(initX.value(), 0, 0);
   let a = (Math.PI / 2) - radians(angle.value()); // 15 degrees
   let targetHeight = 2.6416;
-  let shootingHeight = h.value() * 0.3048;
+  let shootingHeight = h.value() * Math.sin(a) * 0.3048;
   let x1 = ((width / 2 - x.value()) / scl) + (0.6096);
 
   let result = (targetHeight - shootingHeight);
@@ -120,8 +120,6 @@ function calcSpeed() {
   }
 
   t = Date.now() - t;
-  console.log(chosenSpeed);
-  console.log(t);
   speed.value(chosenSpeed);
 }
 
