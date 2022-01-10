@@ -1,4 +1,4 @@
-let angle, speed, x, h;
+let angle, speed, x, h, initX;
 
 //1 meter = 100 px;
 let scl = 100;
@@ -8,23 +8,28 @@ function setup() {
 
   angle = createSlider(0, 45, 15);
   aLabel = createDiv("Angle");
-  aLabel.position(0, height+25);
+  aLabel.position(0, height);
   angle.parent(aLabel);
 
   speed = createSlider(0, 10, 7, 0.1);
   sLabel = createDiv("Speed");
-  sLabel.position(250, height+25);
+  sLabel.position(250, height);
   speed.parent(sLabel);
 
-  x = createSlider(0, 320, 220);
+  x = createSlider(0, 320, 420);
   xLabel = createDiv("Dist");
-  xLabel.position(0, height + 75);
+  xLabel.position(0, height + 50);
   x.parent(xLabel);
   
   h = createSlider(0, 5, 4, 0.1);
   hLabel = createDiv("Height");
-  hLabel.position(250, height + 75);
+  hLabel.position(250, height + 50);
   h.parent(hLabel);
+  
+  initX = createSlider(-4, 4, 0, 0.1);
+  ixLabel = createDiv("Initial Speed");
+  ixLabel.position(0, height + 100);
+  initX.parent(ixLabel);
 }
 
 function draw() {
@@ -53,6 +58,7 @@ function draw() {
   text(angle.value() + "°", 10, 60);
   text((width / 2 - x.value()) / scl + "m", 10, 90);
   text(h.value() + "ft", 10, 120);
+  text(initX.value() + "m/s", 10, 150);
 
   noFill();
   rect(width / 2, height - scl * 2.64, scl * 1.2192, 25);
@@ -78,7 +84,7 @@ function draw() {
 }
 
 function posX(t) {
-  return scl * (speed.value() * sin(radians(angle.value())) * t);
+  return scl * ( (speed.value() * sin(radians(angle.value())) + initX.value()) * t);
 }
 
 function posY(t) {
