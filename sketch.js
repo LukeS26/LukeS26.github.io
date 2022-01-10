@@ -94,6 +94,34 @@ function posY(t) {
   );
 }
 
+function calcSpeed() {
+  let velocity = new Vector(initX.value(), 0, 0);
+  let a = (Math.PI / 2) - radians(angle.value()); // 15 degrees
+  let targetHeight = 2.6416;
+  let shootingHeight = h.value() * 0.3048;
+  let x = ((width / 2 - x.value()) / scl) + (0.6096);
+
+  let result = (targetHeight - shootingHeight);
+  let chosenSpeed = 5;
+  let error = result - eq(chosenSpeed, a, velocity, x);
+  let t = Date.now();
+  while(Math.abs(error) > 0.1) {
+    if(error > 0) {
+      chosenSpeed += chosenSpeed/2;
+    } else {
+      chosenSpeed -= chosenSpeed/2;
+    }
+
+    error = result - eq(chosenSpeed, a, velocity, x);
+    //System.out.println(error + ", " + chosenSpeed);
+  }
+
+  t = Date.now() - t;
+  console.log(chosenSpeed);
+  console.log(t);
+  speed.value(chosenSpeed);
+}
+
 function drawDrag() {
   let vX0 = sin(radians(angle.value())) * speed.value();
   let vY0 = cos(radians(angle.value())) * speed.value();
@@ -117,4 +145,18 @@ function drawDrag() {
     pY += (vY * 0.1) / 2;
   }
   endShape();
+}
+
+function eq(speed, angle, velo, xDist) {
+  if(xDist == 0) {
+    xDist = 0.01
+  }
+  
+	return (speed * xDist * Math.sin(angle) / (velo.x + (speed * Math.cos(angle) )) ) -  9.80665/2 * xDist * xDist / ((velo.x * velo.x) + (2*velo.x *speed * Math.cos(angle)) + (speed*Math.cos(angle)*speed*Math.cos(angle)) );
+}
+
+function Vector(x, y, z) {
+	this.x = x;
+	this.y = y;
+	this.z = z;
 }
