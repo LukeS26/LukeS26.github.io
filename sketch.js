@@ -6,7 +6,7 @@ let scl = 100;
 function setup() {
   createCanvas(1000, 400);
 
-  angle = createSlider(0, 45, 15, 0.1);
+  angle = createSlider(5, 45, 15, 0.1);
   aLabel = createDiv("Angle");
   aLabel.position(25, height + 25);
   angle.parent(aLabel);
