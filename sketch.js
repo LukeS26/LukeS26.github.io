@@ -62,6 +62,7 @@ function draw() {
 
   noFill();
   rect(width / 2, height - scl * 2.6416, scl * 1.2192, 25);
+  circle(width / 2 + scl*0.6096, height - scl * 2.6416, 10);
   push();
   translate(x.value(), height);
   rotate(radians(angle.value()));
