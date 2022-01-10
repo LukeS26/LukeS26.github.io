@@ -61,7 +61,7 @@ function draw() {
   text(initX.value() + "m/s", 10, 150);
 
   noFill();
-  rect(width / 2, height - scl * 2.64, scl * 1.2192, 25);
+  rect(width / 2, height - scl * 2.6416, scl * 1.2192, 25);
   push();
   translate(x.value(), height);
   rotate(radians(angle.value()));
