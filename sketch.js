@@ -1,10 +1,10 @@
-let angle, speed, x, h, initX;
-
+let angle, speed, x, h, initX, initZ;
+let turn = 0;
 //1 meter = 100 px;
 let scl = 100;
 
 function setup() {
-  createCanvas(1000, 400);
+  createCanvas(1000, 800);
 
   angle = createSlider(5, 45, 15, 0.1);
   aLabel = createDiv("Angle");
@@ -21,15 +21,20 @@ function setup() {
   xLabel.position(25, height + 75);
   x.parent(xLabel);
   
-  h = createSlider(0, 5, 4, 0.1);
+  h = createSlider(0, 5, 3.1, 0.1);
   hLabel = createDiv("Height");
   hLabel.position(275, height + 75);
   h.parent(hLabel);
   
   initX = createSlider(-3.5, 3.5, 0, 0.1);
-  ixLabel = createDiv("Initial Speed");
+  ixLabel = createDiv("Init X");
   ixLabel.position(25, height + 125);
   initX.parent(ixLabel);
+  
+  initZ = createSlider(-3.5, 3.5, 0, 0.1);
+  izLabel = createDiv("Init Z");
+  izLabel.position(275, height + 125);
+  initZ.parent(izLabel);
 }
 
 function draw() {
@@ -60,8 +65,10 @@ function draw() {
   text(speed.value() + "m/s", 10, 30);
   text(angle.value() + "°", 10, 60);
   text((width / 2 - x.value()) / scl + "m", 10, 90);
-  text(h.value() + "ft", 10, 120);
+  text(round(h.value() * cos(radians(angle.value())) * 10)/10 + "ft", 10, 120);
   text(initX.value() + "m/s", 10, 150);
+  text(initZ.value() + "m/s", 10, 180);
+
 
   noFill();
   rect(width / 2, height - scl * 2.6416, scl * 1.2192, 25);
@@ -88,7 +95,7 @@ function draw() {
 }
 
 function posX(t) {
-  return scl * ( (speed.value() * sin(radians(angle.value())) + initX.value()) * t);
+  return scl * ( (speed.value() * cos(turn) * sin(radians(angle.value())) + initX.value()) * t);
 }
 
 function posY(t) {
@@ -98,11 +105,13 @@ function posY(t) {
 }
 
 function calcSpeed() {
-  let velocity = new Vector(initX.value(), 0, 0);
+  let velocity = new Vector(initX.value(), 0, initZ.value());
   let a = (Math.PI / 2) - radians(angle.value()); // 15 degrees
   let targetHeight = 2.6416;
   let shootingHeight = h.value() * sin(a) * 0.3048;
   let x1 = ((width / 2 - x.value()) / scl) + (0.6096) - (h.value() * 0.3048 * cos(a));
+  
+  turn = clamp(-Math.atan2(velocity.z, Math.abs(velocity.x) ), -PI/3, PI/3 );
 
   let result = (targetHeight - shootingHeight);
   let chosenSpeed = 5;
@@ -120,7 +129,8 @@ function calcSpeed() {
   }
 
   t = Date.now() - t;
-  speed.value(chosenSpeed);
+  
+  speed.value( chosenSpeed );
 }
 
 function drawDrag() {
@@ -148,12 +158,18 @@ function drawDrag() {
   endShape();
 }
 
+// function reduce(speed, res, xDist, velo) {
+//   //turn /= 2;
+  
+//   return speed;
+// }
+
 function eq(speed, angle, velo, xDist) {
   if(xDist == 0) {
     xDist = 0.01
   }
   
-	return (speed * xDist * Math.sin(angle) / (velo.x + (speed * Math.cos(angle) )) ) -  9.80665/2 * xDist * xDist / ((velo.x * velo.x) + (2*velo.x *speed * Math.cos(angle)) + (speed*Math.cos(angle)*speed*Math.cos(angle)) );
+	return (speed * xDist * Math.sin(angle) / (velo.x + (speed * Math.cos(turn) * Math.cos(angle) )) ) -  9.80665/2 * xDist * xDist / ((velo.x * velo.x) + (2*velo.x * speed * Math.cos(turn) * Math.cos(angle)) + (speed*Math.cos(turn)*Math.cos(angle)*speed*Math.cos(turn)*Math.cos(angle)) );
 }
 
 function Vector(x, y, z) {
@@ -161,3 +177,5 @@ function Vector(x, y, z) {
 	this.y = y;
 	this.z = z;
 }
+
+const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
