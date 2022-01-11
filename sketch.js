@@ -115,7 +115,10 @@ function calcSpeed() {
   let shootingHeight = h.value() * sin(a) * 0.3048;
   let x1 = ((width / 2 - x.value()) / scl) + (0.6096) - (h.value() * 0.3048 * cos(a));
   
-  turn = clamp(-Math.atan2(velocity.z, Math.abs(velocity.x) ), -PI/3, PI/3 );
+  let xv = Math.abs(velocity.x);
+  if (xv < 0.1) { xv = 0.2 }
+  
+  turn = clamp(-Math.atan2(velocity.z, xv), -PI/3, PI/3 );
 
   let result = (targetHeight - shootingHeight);
   let chosenSpeed = 5;
