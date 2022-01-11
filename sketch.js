@@ -98,6 +98,10 @@ function posX(t) {
   return scl * ( (speed.value() * cos(turn) * sin(radians(angle.value())) + initX.value()) * t);
 }
 
+function posZ(t) {
+  return scl * ( (speed.value() * sin(turn) * sin(radians(angle.value())) + initZ.value()) * t);
+}
+
 function posY(t) {
   return (
     scl * (speed.value() * t * cos(radians(angle.value())) + 0.5 * -9.8 * t * t)
