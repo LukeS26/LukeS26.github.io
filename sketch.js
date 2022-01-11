@@ -4,7 +4,7 @@ let turn = 0;
 let scl = 100;
 
 function setup() {
-  createCanvas(1000, 800);
+  createCanvas(1000, 600);
 
   angle = createSlider(5, 45, 15, 0.1);
   aLabel = createDiv("Angle");
