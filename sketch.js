@@ -16,7 +16,7 @@ function setup() {
   sLabel.position(275, height + 25);
   speed.parent(sLabel);
 
-  x = createSlider(0, 320, 420, 10);
+  x = createSlider(0, 500, 420, 10);
   xLabel = createDiv("Dist");
   xLabel.position(25, height + 75);
   x.parent(xLabel);
