@@ -89,7 +89,7 @@ function draw() {
   }
   endShape();
 
-  //drawDrag();
+  drawDrag();
 
   pop();
 }
@@ -151,16 +151,16 @@ function drawDrag() {
 
   stroke("red");
   beginShape();
-  for (let t = 0; t < 100; t++) {
-    let dragX = .2 * 0.01456 * Math.PI * vX * vX / .27;
-    let dragY = .2 * 0.01456 * Math.PI * vY * vY / .27;
+  for (let t = 0; t < 10000; t++) {
+    let dragX = 0.2 * 0.01456 * 1290 * Math.PI * vX * vX / 270;
+    let dragY = 0.2 * 0.01456 * 1290 * Math.PI * vY * vY / 270;
     vertex(scl * pX, -scl * pY);
-    pX += (vX * 0.1) / 2;
-    pY += (vY * 0.1) / 2;
-    vX -= dragX * vX * vX * 0.1;
-    vY -= (9.8 + (vY > 0 ? dragY * vY * vY : -dragY * vY * vY)) * 0.1;
-    pX += (vX * 0.1) / 2;
-    pY += (vY * 0.1) / 2;
+    pX += (vX * 0.001) / 2;
+    pY += (vY * 0.001) / 2;
+    vX -= dragX * 0.001;
+    vY -= (9.8 + (vY > 0 ? dragY: -dragY)) * 0.001;
+    pX += (vX * 0.001) / 2;
+    pY += (vY * 0.001) / 2;
   }
   endShape();
 }
