@@ -89,7 +89,7 @@ function draw() {
   }
   endShape();
 
-  drawDrag();
+  //drawDrag();
 
   pop();
 }
