@@ -89,7 +89,7 @@ function draw() {
   }
   endShape();
 
-  //drawDrag();
+  drawDrag();
 
   pop();
 }
@@ -140,7 +140,7 @@ function calcSpeed() {
 }
 
 function drawDrag() {
-  let vX0 = sin(radians(angle.value())) * speed.value();
+  let vX0 = initX.value() + sin(radians(angle.value())) * speed.value();
   let vY0 = cos(radians(angle.value())) * speed.value();
   let vX = vX0;
   let vY = vY0;
@@ -152,12 +152,13 @@ function drawDrag() {
   stroke("red");
   beginShape();
   for (let t = 0; t < 100; t++) {
-    let drag = 0.05; //test
+    let dragX = .2 * 0.01456 * Math.PI * vX * vX / .27;
+    let dragY = .2 * 0.01456 * Math.PI * vY * vY / .27;
     vertex(scl * pX, -scl * pY);
     pX += (vX * 0.1) / 2;
     pY += (vY * 0.1) / 2;
-    vX -= drag * vX * vX * 0.1;
-    vY -= (9.8 + (vY > 0 ? drag * vY * vY : -drag * vY * vY)) * 0.1;
+    vX -= dragX * vX * vX * 0.1;
+    vY -= (9.8 + (vY > 0 ? dragY * vY * vY : -dragY * vY * vY)) * 0.1;
     pX += (vX * 0.1) / 2;
     pY += (vY * 0.1) / 2;
   }
