@@ -123,7 +123,9 @@ function calcSpeed() {
   let chosenSpeed = 5;
   let error = result - eq(chosenSpeed, a, velocity, x1);
   let t = Date.now();
-  while(Math.abs(error) > 0.01) {
+  let i = 0;
+  while(Math.abs(error) > 0.01 && i < 10000) {
+    i ++;
     if(error > 0) {
       chosenSpeed += chosenSpeed/2;
     } else {
@@ -136,7 +138,7 @@ function calcSpeed() {
 
   t = Date.now() - t;
   
-  speed.value( chosenSpeed );
+  speed.value( chosenSpeed + Math.sqrt(Math.sqrt(x1 - 1)) * sin(a) * sin(a) * sin(a) );
 }
 
 function drawDrag() {
