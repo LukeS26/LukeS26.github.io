@@ -133,12 +133,11 @@ function calcSpeed() {
     }
 
     error = result - eq(chosenSpeed, a, velocity, x1);
-    //System.out.println(error + ", " + chosenSpeed);
   }
 
   t = Date.now() - t;
   
-  speed.value( chosenSpeed + Math.sqrt(Math.sqrt(x1 - 1)) * sin(a) * sin(a) * sin(a) * sin(a) );
+  speed.value( chosenSpeed + Math.sqrt(Math.sqrt(x1 - 1)) * sin(a) * sin(a) * sin(a) * sin(a) - velocity.x );
 }
 
 function drawDrag() {
