@@ -1,4 +1,4 @@
-let angle, speed, x, h, initX, initZ;
+let angle, speed, x, h, initX, initZ, autoAngle, autoSpeed;
 let turn = 0;
 //1 meter = 100 px;
 let scl = 100;
@@ -6,7 +6,7 @@ let scl = 100;
 function setup() {
   createCanvas(1000, 600);
 
-  angle = createSlider(5, 45, 15, 0.1);
+  angle = createSlider(45, 90, 75, 0.1);
   aLabel = createDiv("Angle");
   aLabel.position(25, height + 25);
   angle.parent(aLabel);
@@ -35,6 +35,12 @@ function setup() {
   izLabel = createDiv("Init Z");
   izLabel.position(275, height + 125);
   initZ.parent(izLabel);
+  
+  autoAngle = createCheckbox("Auto Angle", true);
+  autoAngle.position(500, height + 25);
+  
+  autoSpeed = createCheckbox("Auto Speed", true);
+  autoSpeed.position(500, height + 50);
 }
 
 function draw() {
@@ -94,22 +100,22 @@ function draw() {
 }
 
 function posX(t) {
-  return scl * ( (speed.value() * cos(turn) * sin(radians(angle.value())) + initX.value()) * t);
+  return scl * ( (speed.value() * cos(turn) * cos(radians(angle.value())) + initX.value()) * t);
 }
 
 function posZ(t) {
-  return scl * ( (speed.value() * sin(turn) * sin(radians(angle.value())) + initZ.value()) * t);
+  return scl * ( (speed.value() * sin(turn) * cos(radians(angle.value())) + initZ.value()) * t);
 }
 
 function posY(t) {
   return (
-    scl * (speed.value() * t * cos(radians(angle.value())) + 0.5 * -9.8 * t * t)
+    scl * (speed.value() * t * sin(radians(angle.value())) + 0.5 * -9.8 * t * t)
   );
 }
 
 function calcSpeed() {
   let velocity = new Vector(initX.value(), 0, initZ.value());
-  let a = (Math.PI / 2) - radians(angle.value()); // 15 degrees
+  let a = radians(angle.value()); // 15 degrees
   let targetHeight = 2.6416;
   let shootingHeight = h.value();
   let x1 = ((width / 2 - x.value()) / scl) + (0.6096);
@@ -136,23 +142,27 @@ function calcSpeed() {
   }
   
   
-  
-  //a = Math.atan( ((tan(-0.62) * x1) - (2 * (targetHeight-shootingHeight))) /  -x1 );
-  
+  a = Math.atan( ((tan(-0.95) * x1) - (2 * (targetHeight-shootingHeight))) /  -x1 );
   //chosenSpeed = Math.sqrt( -(9.8 * x1 * x1 * (1 + (Math.tan(a) * Math.tan(a)) ) ) / (2 * (targetHeight - shootingHeight) - (2 * x1 * Math.tan(a) )));
   
   let vX = initX.value() + Math.cos(a) * Math.cos(turn) * speed.value();
   let initDrag = 0.2 * 0.01456 * 1290 * Math.PI * vX * vX / 270;
   let time = x1 / (velocity.x + chosenSpeed * Math.cos(a) * Math.cos(turn));
-    
-  angle.value( 90 - degrees(a) )  
-  speed.value( chosenSpeed + (initDrag * time * time * 0.5));
+  
+  if(autoAngle.checked()) {
+    angle.value( degrees(a) );
+    console.log(degrees(a))
+  }
+  if (autoSpeed.checked()) {
+    speed.value( chosenSpeed + (initDrag * time * time * 0.65 ));
+  }
   
   t = Date.now() - t;
   
   text(round(time * 100) / 100 + " s", 10, 240);
   if(t > 2) {
     fill("red");
+    //console.log(t);
   }
   text(t + " ms", 10, 210);
   fill("black");
@@ -160,8 +170,8 @@ function calcSpeed() {
 }
 
 function drawDrag() {
-  let vX0 = initX.value() + sin(radians(angle.value())) * cos(turn) * speed.value();
-  let vY0 = cos(radians(angle.value())) * speed.value();
+  let vX0 = initX.value() + cos(radians(angle.value())) * cos(turn) * speed.value();
+  let vY0 = sin(radians(angle.value())) * speed.value();
   let vX = vX0;
   let vY = vY0;
   let pX = 0;
