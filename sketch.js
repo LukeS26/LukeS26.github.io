@@ -21,7 +21,7 @@ function setup() {
   xLabel.position(25, height + 75);
   x.parent(xLabel);
   
-  h = createSlider(0, 5, 3.1, 0.1);
+  h = createSlider(0, 1.4, 0.9, 0.1);
   hLabel = createDiv("Height");
   hLabel.position(275, height + 75);
   h.parent(hLabel);
@@ -65,7 +65,7 @@ function draw() {
   text(speed.value() + "m/s", 10, 30);
   text(angle.value() + "°", 10, 60);
   text((width / 2 - x.value()) / scl + "m", 10, 90);
-  text(round(h.value() * 10)/10 + "ft", 10, 120);
+  text(round(h.value() * 10)/10 + "m", 10, 120);
   text(initX.value() + "m/s", 10, 150);
   text(initZ.value() + "m/s", 10, 180);
 
@@ -76,10 +76,12 @@ function draw() {
   push();
   translate(x.value(), height);
   rotate(radians(angle.value()));
-  //rect(0, 0, 50, -scl * h.value() * 0.3048);
+  //rect(0, 0, 50, -scl * h.value());
   pop();
   push();
-  translate( x.value(), height - scl * h.value() * 0.3048 );
+  translate( x.value(), height - scl * h.value() );
+  rect(-0.762 * scl/2, 0, 0.762 * scl, scl * h.value());
+  
   beginShape();
   for (let t = 0; t < 1000; t++) {
     vertex(posX(t / 100), -posY(t / 100));
@@ -109,7 +111,7 @@ function calcSpeed() {
   let velocity = new Vector(initX.value(), 0, initZ.value());
   let a = (Math.PI / 2) - radians(angle.value()); // 15 degrees
   let targetHeight = 2.6416;
-  let shootingHeight = h.value() * 0.3048;
+  let shootingHeight = h.value();
   let x1 = ((width / 2 - x.value()) / scl) + (0.6096);
   
   let xv = x1 - velocity.x;
@@ -135,15 +137,16 @@ function calcSpeed() {
   //a = Math.atan( ((tan(-0.62) * x1) - (2 * (targetHeight-shootingHeight))) /  -x1 );
   
   //chosenSpeed = Math.sqrt( -(9.8 * x1 * x1 * (1 + (Math.tan(a) * Math.tan(a)) ) ) / (2 * (targetHeight - shootingHeight) - (2 * x1 * Math.tan(a) )));
-
-  t = Date.now() - t;
   
   let vX = initX.value() + Math.cos(a) * Math.cos(turn) * speed.value();
   let initDrag = 0.2 * 0.01456 * 1290 * Math.PI * vX * vX / 270;
   let time = x1 / (velocity.x + chosenSpeed * Math.cos(a) * Math.cos(turn));
     
   angle.value( 90 - degrees(a) )  
-  speed.value( chosenSpeed + (initDrag * time * time));
+  speed.value( chosenSpeed + (initDrag * time * time * 0.5));
+  
+  t = Date.now() - t;
+
   text(t, 10, 210);
   text(time, 10, 240);
   //+ Math.sqrt(Math.sqrt(x1 - 1)) * sin(a) * sin(a) * sin(a) * sin(a) + velocity.x/2 
