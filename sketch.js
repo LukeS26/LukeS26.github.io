@@ -115,7 +115,7 @@ function posY(t) {
 
 function calcSpeed() {
   let velocity = new Vector(initX.value(), 0, initZ.value());
-  let a = radians(angle.value()); // 15 degrees
+  let a = radians(angle.value());
   let targetHeight = 2.6416;
   let shootingHeight = h.value();
   let x1 = ((width / 2 - x.value()) / scl) + (0.6096);
@@ -154,7 +154,7 @@ function calcSpeed() {
     console.log(degrees(a))
   }
   if (autoSpeed.checked()) {
-    speed.value( chosenSpeed + (initDrag * time * time * 0.65 ));
+    speed.value( chosenSpeed + (initDrag * time * time * 0.7 ));
   }
   
   t = Date.now() - t;
