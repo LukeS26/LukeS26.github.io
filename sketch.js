@@ -142,10 +142,10 @@ function calcSpeed() {
   }
   
   
-  a = Math.atan( ((tan(-0.95) * x1) - (2 * (targetHeight-shootingHeight))) /  -x1 );
+  a = Math.atan( ((Math.tan(-0.95) * x1) - (2 * (targetHeight-shootingHeight))) /  -x1 );
   //chosenSpeed = Math.sqrt( -(9.8 * x1 * x1 * (1 + (Math.tan(a) * Math.tan(a)) ) ) / (2 * (targetHeight - shootingHeight) - (2 * x1 * Math.tan(a) )));
   
-  let vX = initX.value() + Math.cos(a) * Math.cos(turn) * speed.value();
+  let vX = initX.value() + Math.cos(a) * Math.cos(turn) * chosenSpeed;
   let initDrag = 0.2 * 0.01456 * 1290 * Math.PI * vX * vX / 270;
   let time = x1 / (velocity.x + chosenSpeed * Math.cos(a) * Math.cos(turn));
   
