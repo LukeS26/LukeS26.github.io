@@ -123,8 +123,9 @@ function calcSpeed() {
   let error = result - eq(chosenSpeed, a, velocity, x1);
   let t = Date.now();
   let i = 0;
-  while(Math.abs(error) > 0.01 && i < 100000) {
+  while(Math.abs(error) > 0.1 && i < 1000) {
     i ++;
+    
     if(error > 0) {
       chosenSpeed += chosenSpeed/2;
     } else {
@@ -133,6 +134,8 @@ function calcSpeed() {
 
     error = result - eq(chosenSpeed, a, velocity, x1);
   }
+  
+  
   
   //a = Math.atan( ((tan(-0.62) * x1) - (2 * (targetHeight-shootingHeight))) /  -x1 );
   
@@ -146,9 +149,13 @@ function calcSpeed() {
   speed.value( chosenSpeed + (initDrag * time * time * 0.5));
   
   t = Date.now() - t;
-
-  text(t, 10, 210);
-  text(time, 10, 240);
+  
+  text(round(time * 100) / 100 + " s", 10, 240);
+  if(t > 2) {
+    fill("red");
+  }
+  text(t + " ms", 10, 210);
+  fill("black");
   //+ Math.sqrt(Math.sqrt(x1 - 1)) * sin(a) * sin(a) * sin(a) * sin(a) + velocity.x/2 
 }
 
