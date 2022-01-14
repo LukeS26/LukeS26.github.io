@@ -65,7 +65,7 @@ function draw() {
   text(speed.value() + "m/s", 10, 30);
   text(angle.value() + "°", 10, 60);
   text((width / 2 - x.value()) / scl + "m", 10, 90);
-  text(round(h.value() * cos(radians(angle.value())) * 10)/10 + "ft", 10, 120);
+  text(round(h.value() * 10)/10 + "ft", 10, 120);
   text(initX.value() + "m/s", 10, 150);
   text(initZ.value() + "m/s", 10, 180);
 
@@ -76,13 +76,10 @@ function draw() {
   push();
   translate(x.value(), height);
   rotate(radians(angle.value()));
-  rect(0, 0, 50, -scl * h.value() * 0.3048);
+  //rect(0, 0, 50, -scl * h.value() * 0.3048);
   pop();
   push();
-  translate(
-    cos(radians(90 - angle.value())) * (scl * h.value() * 0.3048) + x.value(),
-    height - sin(radians(90 - angle.value())) * scl * h.value() * 0.3048
-  );
+  translate( x.value(), height - scl * h.value() * 0.3048 );
   beginShape();
   for (let t = 0; t < 1000; t++) {
     vertex(posX(t / 100), -posY(t / 100));
@@ -112,8 +109,8 @@ function calcSpeed() {
   let velocity = new Vector(initX.value(), 0, initZ.value());
   let a = (Math.PI / 2) - radians(angle.value()); // 15 degrees
   let targetHeight = 2.6416;
-  let shootingHeight = h.value() * sin(a) * 0.3048;
-  let x1 = ((width / 2 - x.value()) / scl) + (0.6096) - (h.value() * 0.3048 * cos(a));
+  let shootingHeight = h.value() * 0.3048;
+  let x1 = ((width / 2 - x.value()) / scl) + (0.6096);
   
   let xv = x1 - velocity.x;
   
@@ -124,7 +121,7 @@ function calcSpeed() {
   let error = result - eq(chosenSpeed, a, velocity, x1);
   let t = Date.now();
   let i = 0;
-  while(Math.abs(error) > 0.01 && i < 10000) {
+  while(Math.abs(error) > 0.01 && i < 100000) {
     i ++;
     if(error > 0) {
       chosenSpeed += chosenSpeed/2;
@@ -134,14 +131,26 @@ function calcSpeed() {
 
     error = result - eq(chosenSpeed, a, velocity, x1);
   }
+  
+  //a = Math.atan( ((tan(-0.62) * x1) - (2 * (targetHeight-shootingHeight))) /  -x1 );
+  
+  //chosenSpeed = Math.sqrt( -(9.8 * x1 * x1 * (1 + (Math.tan(a) * Math.tan(a)) ) ) / (2 * (targetHeight - shootingHeight) - (2 * x1 * Math.tan(a) )));
 
   t = Date.now() - t;
   
-  speed.value( chosenSpeed + Math.sqrt(Math.sqrt(x1 - 1)) * sin(a) * sin(a) * sin(a) * sin(a) - velocity.x );
+  let vX = initX.value() + Math.cos(a) * Math.cos(turn) * speed.value();
+  let initDrag = 0.2 * 0.01456 * 1290 * Math.PI * vX * vX / 270;
+  let time = x1 / (velocity.x + chosenSpeed * Math.cos(a) * Math.cos(turn));
+    
+  angle.value( 90 - degrees(a) )  
+  speed.value( chosenSpeed + (initDrag * time * time));
+  text(t, 10, 210);
+  text(time, 10, 240);
+  //+ Math.sqrt(Math.sqrt(x1 - 1)) * sin(a) * sin(a) * sin(a) * sin(a) + velocity.x/2 
 }
 
 function drawDrag() {
-  let vX0 = initX.value() + sin(radians(angle.value())) * speed.value();
+  let vX0 = initX.value() + sin(radians(angle.value())) * cos(turn) * speed.value();
   let vY0 = cos(radians(angle.value())) * speed.value();
   let vX = vX0;
   let vY = vY0;
@@ -176,6 +185,8 @@ function eq(speed, angle, velo, xDist) {
   if(xDist == 0) {
     xDist = 0.01
   }
+  
+  //return speed * sin(angle) - 4.9;
   
 	return (speed * xDist * Math.sin(angle) / (velo.x + (speed * Math.cos(turn) * Math.cos(angle) )) ) -  9.80665/2 * xDist * xDist / ((velo.x * velo.x) + (2*velo.x * speed * Math.cos(turn) * Math.cos(angle)) + (speed*Math.cos(turn)*Math.cos(angle)*speed*Math.cos(turn)*Math.cos(angle)) );
 }
