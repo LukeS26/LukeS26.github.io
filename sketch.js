@@ -144,7 +144,7 @@ function calcSpeed() {
   if(x1 >= 2.15) {
     a = Math.atan( ((Math.tan(-0.95) * x1) - (2 * (targetHeight-shootingHeight))) /  -x1 );
   } else {
-    a = Math.atan( ((Math.tan(-1.309) * x1) - (2 * (targetHeight-shootingHeight))) /  -x1 );
+    a = Math.atan( ((Math.tan(-1.21) * x1) - (2 * (targetHeight-shootingHeight))) /  -x1 );
   }
   //chosenSpeed = Math.sqrt( -(9.8 * x1 * x1 * (1 + (Math.tan(a) * Math.tan(a)) ) ) / (2 * (targetHeight - shootingHeight) - (2 * x1 * Math.tan(a) )));
   
