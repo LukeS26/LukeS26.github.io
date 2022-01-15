@@ -1,10 +1,10 @@
 let angle, speed, x, h, initX, initZ, autoAngle, autoSpeed, drawCircle;
 let turn = 0;
-
-let scl = 100; //1 meter = 100 px
+//1 meter = 100 px;
+let scl = 100;
 
 function setup() {
-  createCanvas(1200, 600);
+  createCanvas(1130, 600);
 
   angle = createSlider(45, 90, 75, 0.1);
   aLabel = createDiv("Angle");
@@ -16,7 +16,7 @@ function setup() {
   sLabel.position(275, height + 25);
   speed.parent(sLabel);
 
-  x = createSlider(40, 530, 320, 10);
+  x = createSlider(0, 480, 320, 5);
   xLabel = createDiv("Dist");
   xLabel.position(25, height + 75);
   x.parent(xLabel);
@@ -89,7 +89,7 @@ function draw() {
   pop();
   push();
   translate( x.value(), height - scl * h.value() );
-  rect(-0.762 * scl/2, 0, 0.762 * scl, scl * h.value());
+  rect(0, 0, 0.762 * scl, scl * h.value());
   
   beginShape();
   for (let t = 0; t < 1000; t++) {
