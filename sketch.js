@@ -150,6 +150,9 @@ function calcSpeed() {
   let time = x1 / (velocity.x + chosenSpeed * Math.cos(a) * Math.cos(turn));
   
   if(autoAngle.checked()) {
+    if(x1 <= 2) {
+	a = 1.48353;
+    }
     angle.value( degrees(a) );
   }
   if (autoSpeed.checked()) {
