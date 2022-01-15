@@ -132,7 +132,7 @@ function calcSpeed() {
   turn = clamp(-Math.atan2(velocity.z, xv), -PI/3, PI/3 );
 
   if(autoAngle.checked()) {
-    if( (x1 - 0.381) >= (2 - velocity.x)) {
+    if( (x1 - 0.381) >= (2 + velocity.x)) {
       a = Math.atan( ((Math.tan(-0.95) * x1) - (2 * (targetHeight-shootingHeight))) /  -x1 );
     } else {
       a = Math.atan( ((Math.tan(-1.21) * x1) - (2 * (targetHeight-shootingHeight))) /  -x1 );
