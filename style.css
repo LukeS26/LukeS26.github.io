@@ -2,9 +2,10 @@ html, body {
   margin: 0;
   padding: 0;
   zoom: 0.8;
+  -moz-transform: scale(0.8);
 }
 
 canvas {
   display: block;
-  padding: 25px;
+  /*padding: 25px;*/
 }
