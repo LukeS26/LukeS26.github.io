@@ -1,7 +1,7 @@
 let angle, speed, x, h, initX, initZ, autoAngle, autoSpeed, drawCircle;
 let turn = 0;
-//1 meter = 100 px;
-let scl = 100;
+
+let scl = 100; //1 meter = 100 px
 
 function setup() {
   createCanvas(1200, 600);
