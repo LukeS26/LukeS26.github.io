@@ -141,8 +141,11 @@ function calcSpeed() {
     error = result - eq(chosenSpeed, a, velocity, x1);
   }
   
-  
-  a = Math.atan( ((Math.tan(-0.95) * x1) - (2 * (targetHeight-shootingHeight))) /  -x1 );
+  if(x1 >= 2.15) {
+    a = Math.atan( ((Math.tan(-0.95) * x1) - (2 * (targetHeight-shootingHeight))) /  -x1 );
+  } else {
+    a = Math.atan( ((Math.tan(-1.39626) * x1) - (2 * (targetHeight-shootingHeight))) /  -x1 );
+  }
   //chosenSpeed = Math.sqrt( -(9.8 * x1 * x1 * (1 + (Math.tan(a) * Math.tan(a)) ) ) / (2 * (targetHeight - shootingHeight) - (2 * x1 * Math.tan(a) )));
   
   let vX = initX.value() + Math.cos(a) * Math.cos(turn) * chosenSpeed;
@@ -150,9 +153,9 @@ function calcSpeed() {
   let time = x1 / (velocity.x + chosenSpeed * Math.cos(a) * Math.cos(turn));
   
   if(autoAngle.checked()) {
-    if(x1 <= 2.15) {
-	a = 1.36136;
-    }
+//     if(x1 <= 2.15) {
+// 	a = 1.36136;
+//     }
     angle.value( degrees(a) );
   }
   if (autoSpeed.checked()) {
