@@ -63,8 +63,6 @@ function draw() {
     }
   }
   
-  line(561, height, 561, height/2)
-
   fill(0);
   
   calcSpeed();
