@@ -62,6 +62,8 @@ function draw() {
       line(i, height, i, height - 5);
     }
   }
+  
+  line(561, height, 561, height/2)
 
   fill(0);
   
@@ -70,7 +72,7 @@ function draw() {
   textSize(32);
   text(speed.value() + "m/s", 10, 30);
   text(angle.value() + "°", 10, 60);
-  text( ((width / 2 - x.value()) + 0.38 * scl)  / scl + "m", 10, 90);
+  text( ((width / 2 - x.value())) / scl + 0.61 + "m", 10, 90);
   text(round(h.value() * 10)/10 + "m", 10, 120);
   text(initX.value() + "m/s", 10, 150);
   text(initZ.value() + "m/s", 10, 180);
@@ -118,7 +120,7 @@ function calcSpeed() {
   let a = radians(angle.value());
   let targetHeight = 2.6416;
   let shootingHeight = h.value();
-  let x1 = ((width / 2 - x.value()) / scl) + 0.762 + 0.6096;
+  let x1 = ((width / 2 - x.value()) / scl) + 0.6096 + 0.381;
   
   let xv = x1 - velocity.x;
   
