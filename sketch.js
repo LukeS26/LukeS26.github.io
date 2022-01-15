@@ -141,7 +141,7 @@ function calcSpeed() {
     error = result - eq(chosenSpeed, a, velocity, x1);
   }
   
-  if(x1 >= 2.15) {
+  if( (x1 - 0.381) >= 2) {
     a = Math.atan( ((Math.tan(-0.95) * x1) - (2 * (targetHeight-shootingHeight))) /  -x1 );
   } else {
     a = Math.atan( ((Math.tan(-1.21) * x1) - (2 * (targetHeight-shootingHeight))) /  -x1 );
