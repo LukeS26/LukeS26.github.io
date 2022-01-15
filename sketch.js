@@ -4,7 +4,7 @@ let turn = 0;
 let scl = 100;
 
 function setup() {
-  createCanvas(1000, 600);
+  createCanvas(1200, 600);
 
   angle = createSlider(45, 90, 75, 0.1);
   aLabel = createDiv("Angle");
@@ -16,7 +16,7 @@ function setup() {
   sLabel.position(275, height + 25);
   speed.parent(sLabel);
 
-  x = createSlider(0, 430, 320, 10);
+  x = createSlider(0, 530, 320, 10);
   xLabel = createDiv("Dist");
   xLabel.position(25, height + 75);
   x.parent(xLabel);
