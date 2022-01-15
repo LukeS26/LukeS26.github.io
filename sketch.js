@@ -153,7 +153,7 @@ function calcSpeed() {
     angle.value( degrees(a) );
   }
   if (autoSpeed.checked()) {
-    speed.value( chosenSpeed + (initDrag * time * time * 0.7 ));
+    speed.value( chosenSpeed + (initDrag * time * time * 0.5 ));
   }
   
   t = Date.now() - t;
