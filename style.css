@@ -2,6 +2,7 @@ html, body {
   margin: 0;
   padding: 0;
   zoom: 0.8;
+  -moz-transform: scale(0.85) translate(-50px, -50px);
 }
 
 canvas {
