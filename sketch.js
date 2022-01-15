@@ -93,7 +93,7 @@ function draw() {
   
   beginShape();
   for (let t = 0; t < 1000; t++) {
-    if(-posY(t/100) > height) { break; }
+    if(-posY(t/100) < -height) { break; }
     vertex(posX(t / 100), -posY(t / 100));
     // if(t % 5 == 0 && drawCircle.checked()) {
     //   circle(posX(t/100), -posY(t/100), 0.2286 * scl);
@@ -195,6 +195,7 @@ function drawDrag() {
   for (let t = 0; t < 10000; t++) {
     let dragX = 0.2 * 0.01456 * 1290 * Math.PI * vX * vX / 270;
     let dragY = 0.2 * 0.01456 * 1290 * Math.PI * vY * vY / 270;
+    if(pY * -scl < -height) {break}
     vertex(scl * pX, -scl * pY);
     if(t % 50 == 0 && drawCircle.checked()) {
       circle(scl * pX, -scl * pY, 0.2413 * scl);
