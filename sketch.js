@@ -118,7 +118,7 @@ function calcSpeed() {
   let a = radians(angle.value());
   let targetHeight = 2.6416;
   let shootingHeight = h.value();
-  let x1 = ((width / 2 - x.value() + 0.762 * scl/2) / scl) + (0.6096);
+  let x1 = ((width / 2 - x.value()) / scl) + 0.762 + 0.6096;
   
   let xv = x1 - velocity.x;
   
