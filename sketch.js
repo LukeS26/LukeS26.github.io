@@ -1,4 +1,4 @@
-let angle, speed, x, h, initX, initZ, autoAngle, autoSpeed;
+let angle, speed, x, h, initX, initZ, autoAngle, autoSpeed, drawCircle;
 let turn = 0;
 //1 meter = 100 px;
 let scl = 100;
@@ -41,6 +41,9 @@ function setup() {
   
   autoSpeed = createCheckbox("Auto Speed", true);
   autoSpeed.position(500, height + 50);
+  
+  drawCircle = createCheckbox("Draw Circle", true);
+  drawCircle.position(500, height + 75);
 }
 
 function draw() {
@@ -90,7 +93,11 @@ function draw() {
   
   beginShape();
   for (let t = 0; t < 1000; t++) {
+    if(-posY(t/100) > height) { break; }
     vertex(posX(t / 100), -posY(t / 100));
+    // if(t % 5 == 0 && drawCircle.checked()) {
+    //   circle(posX(t/100), -posY(t/100), 0.2286 * scl);
+    // }
   }
   endShape();
 
@@ -183,13 +190,15 @@ function drawDrag() {
   let pY = 0;
 
   //DRAG VV
-
   stroke("red");
   beginShape();
   for (let t = 0; t < 10000; t++) {
     let dragX = 0.2 * 0.01456 * 1290 * Math.PI * vX * vX / 270;
     let dragY = 0.2 * 0.01456 * 1290 * Math.PI * vY * vY / 270;
     vertex(scl * pX, -scl * pY);
+    if(t % 50 == 0 && drawCircle.checked()) {
+      circle(scl * pX, -scl * pY, 0.2413 * scl);
+    }
     pX += (vX * 0.001) / 2;
     pY += (vY * 0.001) / 2;
     vX -= dragX * 0.001;
