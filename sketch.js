@@ -21,7 +21,7 @@ function setup() {
   xLabel.position(25, height + 75);
   x.parent(xLabel);
   
-  h = createSlider(0, 1.4, 0.9, 0.1);
+  h = createSlider(0, 1.4, 0.4, 0.1);
   hLabel = createDiv("Height");
   hLabel.position(275, height + 75);
   h.parent(hLabel);
@@ -70,7 +70,7 @@ function draw() {
   textSize(32);
   text(speed.value() + "m/s", 10, 30);
   text(angle.value() + "°", 10, 60);
-  text((width / 2 - x.value()) / scl + "m", 10, 90);
+  text( ((width / 2 - x.value()) + 0.762 * scl/2)  / scl + "m", 10, 90);
   text(round(h.value() * 10)/10 + "m", 10, 120);
   text(initX.value() + "m/s", 10, 150);
   text(initZ.value() + "m/s", 10, 180);
@@ -118,7 +118,7 @@ function calcSpeed() {
   let a = radians(angle.value());
   let targetHeight = 2.6416;
   let shootingHeight = h.value();
-  let x1 = ((width / 2 - x.value()) / scl) + (0.6096);
+  let x1 = ((width / 2 - x.value() + 0.762 * scl/2) / scl) + (0.6096);
   
   let xv = x1 - velocity.x;
   
@@ -151,7 +151,6 @@ function calcSpeed() {
   
   if(autoAngle.checked()) {
     angle.value( degrees(a) );
-    console.log(degrees(a))
   }
   if (autoSpeed.checked()) {
     speed.value( chosenSpeed + (initDrag * time * time * 0.7 ));
