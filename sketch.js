@@ -42,7 +42,7 @@ function setup() {
   autoSpeed = createCheckbox("Auto Speed", true);
   autoSpeed.position(500, height + 50);
   
-  drawCircle = createCheckbox("Draw Circle", true);
+  drawCircle = createCheckbox("Draw Circles", true);
   drawCircle.position(500, height + 75);
 }
 
