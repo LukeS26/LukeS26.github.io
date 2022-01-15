@@ -151,7 +151,7 @@ function calcSpeed() {
   
   if(autoAngle.checked()) {
     if(x1 <= 2) {
-	a = 1.48353;
+	a = 1.36136;
     }
     angle.value( degrees(a) );
   }
