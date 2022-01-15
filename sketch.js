@@ -70,7 +70,7 @@ function draw() {
   textSize(32);
   text(speed.value() + "m/s", 10, 30);
   text(angle.value() + "°", 10, 60);
-  text( round(((width / 2 - x.value())) / scl + 0.61) * 100)/100 + "m", 10, 90);
+  text( round(((width / 2 - x.value()) / scl + 0.61) * 100 )/100 + "m", 10, 90);
   text(round(h.value() * 10)/10 + "m", 10, 120);
   text(initX.value() + "m/s", 10, 150);
   text(initZ.value() + "m/s", 10, 180);
