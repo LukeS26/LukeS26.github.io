@@ -195,6 +195,10 @@ function drawDrag() {
   for (let t = 0; t < 10000; t++) {
     let dragX = 0.2 * 0.01456 * 1290 * Math.PI * vX * vX / 270;
     let dragY = 0.2 * 0.01456 * 1290 * Math.PI * vY * vY / 270;
+      
+    let w = 0;
+    let magnusY = 2 * Math.PI * 0.121 * 0.121 * w * 1.225 * vY * 0.2413;
+    
     if(pY * -scl < -height) {break}
     vertex(scl * pX, -scl * pY);
     if(t % 50 == 0 && drawCircle.checked()) {
