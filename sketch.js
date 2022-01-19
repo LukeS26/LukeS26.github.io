@@ -197,7 +197,7 @@ function drawDrag() {
     let dragY = 0.2 * 0.01456 * 1290 * Math.PI * vY * vY / 270;
       
     let w = 0;
-    let magnusY = 2 * Math.PI * 0.121 * 0.121 * w * 1.225 * vY * 0.2413;
+    let magnusY = 2 * Math.PI * 0.121 * 0.121 * w * 1.225 * vY * 0.2413 / 0.270; //  2 * PI * R^2 * rotation * density (kg/m3) * Y velocity * diameter / mass (kg)
     
     if(pY * -scl < -height) {break}
     vertex(scl * pX, -scl * pY);
@@ -207,7 +207,7 @@ function drawDrag() {
     pX += (vX * 0.001) / 2;
     pY += (vY * 0.001) / 2;
     vX -= dragX * 0.001;
-    vY -= (9.8 + (vY > 0 ? dragY: -dragY)) * 0.001;
+    vY -= (9.8 + (vY > 0 ? dragY: -dragY) + magnusY) * 0.001;
     pX += (vX * 0.001) / 2;
     pY += (vY * 0.001) / 2;
   }
