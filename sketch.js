@@ -4,7 +4,7 @@ let turn = 0;
 let scl = 100;
 
 function setup() {
-  createCanvas(1130, 600);
+  createCanvas(1130, 800);
 
   angle = createSlider(45, 90, 75, 0.1);
   aLabel = createDiv("Angle");
@@ -93,7 +93,7 @@ function draw() {
   
   beginShape();
   for (let t = 0; t < 1000; t++) {
-    if(-posY(t/100) < -height) { break; }
+    if(-posY(t/100) < -height) { continue; }
     vertex(posX(t / 100), -posY(t / 100));
     // if(t % 5 == 0 && drawCircle.checked()) {
     //   circle(posX(t/100), -posY(t/100), 0.2286 * scl);
@@ -129,7 +129,7 @@ function calcSpeed() {
   
   let xv = x1 - velocity.x;
   
-  turn = clamp(-Math.atan2(velocity.z, xv), -PI/3, PI/3 );
+  turn = -Math.atan2(velocity.z, xv);
 
   if(autoAngle.checked()) {
     if( (x1 - 0.381) >= (2 + velocity.x)) {
@@ -195,11 +195,7 @@ function drawDrag() {
   for (let t = 0; t < 10000; t++) {
     let dragX = 0.2 * 0.01456 * 1290 * Math.PI * vX * vX / 270;
     let dragY = 0.2 * 0.01456 * 1290 * Math.PI * vY * vY / 270;
-      
-    let w = 0;
-    let magnusY = 2 * Math.PI * 0.121 * 0.121 * w * 1.225 * vY * 0.2413 / 0.270; //  2 * PI * R^2 * rotation * density (kg/m3) * Y velocity * diameter / mass (kg)
-    
-    if(pY * -scl < -height) {break}
+    if(pY * -scl < -height) {continue;}
     vertex(scl * pX, -scl * pY);
     if(t % 50 == 0 && drawCircle.checked()) {
       circle(scl * pX, -scl * pY, 0.2413 * scl);
@@ -207,7 +203,7 @@ function drawDrag() {
     pX += (vX * 0.001) / 2;
     pY += (vY * 0.001) / 2;
     vX -= dragX * 0.001;
-    vY -= (9.8 + (vY > 0 ? dragY: -dragY) + magnusY) * 0.001;
+    vY -= (9.8 + (vY > 0 ? dragY: -dragY)) * 0.001;
     pX += (vX * 0.001) / 2;
     pY += (vY * 0.001) / 2;
   }
