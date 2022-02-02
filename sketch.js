@@ -1,4 +1,4 @@
-let angle, speed, x, h, initX, initZ, autoAngle, autoSpeed, drawCircle;
+let angle, speed, x, h, initX, initZ, angularVelo, autoAngle, autoSpeed, drawCircle;
 let turn = 0;
 //1 meter = 100 px;
 let scl = 100;
@@ -35,7 +35,12 @@ function setup() {
   izLabel = createDiv("Init Z");
   izLabel.position(275, height + 125);
   initZ.parent(izLabel);
-  
+    
+  angularVelo = createSlider(-10, 20, 0, 1);
+  avLabel = createDiv("Angular Velocity");
+  avLabel.position(25, height + 175);
+  angularVelo.parent(avLabel);
+
   autoAngle = createCheckbox("Auto Angle", true);
   autoAngle.position(500, height + 25);
   
@@ -77,7 +82,7 @@ function draw() {
   text(round(h.value() * 10)/10 + "m", 10, 120);
   text(initX.value() + "m/s", 10, 150);
   text(initZ.value() + "m/s", 10, 180);
-
+  text(angularVelo.value() + " Θ/s", 10, 270);
 
   noFill();
   rect(width / 2, height - scl * 2.6416, scl * 1.2192, 25);
@@ -188,6 +193,7 @@ function drawDrag() {
   let vY = vY0;
   let pX = 0;
   let pY = 0;
+  
 
   //DRAG VV
   stroke("red");
@@ -195,6 +201,14 @@ function drawDrag() {
   for (let t = 0; t < 10000; t++) {
     let dragX = 0.2 * 0.01456 * 1290 * Math.PI * vX * vX / 270;
     let dragY = 0.2 * 0.01456 * 1290 * Math.PI * vY * vY / 270;
+    
+    let p = 1.225;
+    let r = 0.12065;
+    let w = angularVelo.value();
+    let G = 2 * Math.PI * r * r * w;
+
+    let F = p * vX * G * (0.2413);
+    
     if(pY * -scl < -height) {continue;}
     vertex(scl * pX, -scl * pY);
     if(t % 50 == 0 && drawCircle.checked()) {
@@ -203,6 +217,7 @@ function drawDrag() {
     pX += (vX * 0.001) / 2;
     pY += (vY * 0.001) / 2;
     vX -= dragX * 0.001;
+    vY += (F * 0.001) / 0.27;
     vY -= (9.8 + (vY > 0 ? dragY: -dragY)) * 0.001;
     pX += (vX * 0.001) / 2;
     pY += (vY * 0.001) / 2;
