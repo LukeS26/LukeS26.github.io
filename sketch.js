@@ -21,7 +21,7 @@ function setup() {
   xLabel.position(25, height + 75);
   x.parent(xLabel);
   
-  h = createSlider(0, 1.4, 0.4, 0.1);
+  h = createSlider(0, 1.4, 0.4, 0.02);
   hLabel = createDiv("Height");
   hLabel.position(275, height + 75);
   h.parent(hLabel);
