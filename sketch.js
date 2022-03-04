@@ -145,21 +145,24 @@ function calcSpeed() {
   }
   
   let result = (targetHeight - shootingHeight);
-  let chosenSpeed = 5;
-  let error = result - eq(chosenSpeed, a, velocity, x1);
+  let chosenSpeed;
   let t = Date.now();
   let i = 0;
-  while(Math.abs(error) > 0.1 && i < 1000) {
-    i ++;
+  
+  chosenSpeed = ridders(3.5, 13.5, (a), x1, result, 20);
+  let error = result - eq(chosenSpeed, a, velocity, x1);
+  
+//   while(Math.abs(error) > 0.1 && i < 1000) {
+//     i ++;
     
-    if(error > 0) {
-      chosenSpeed += chosenSpeed/2;
-    } else {
-      chosenSpeed -= chosenSpeed/2;
-    }
+//     if(error > 0) {
+//       chosenSpeed += chosenSpeed/2;
+//     } else {
+//       chosenSpeed -= chosenSpeed/2;
+//     }
 
-    error = result - eq(chosenSpeed, a, velocity, x1);
-  }
+//     error = result - eq(chosenSpeed, a, velocity, x1);
+//   }
   
   //chosenSpeed = Math.sqrt( -(9.8 * x1 * x1 * (1 + (Math.tan(a) * Math.tan(a)) ) ) / (2 * (targetHeight - shootingHeight) - (2 * x1 * Math.tan(a) )));
   
@@ -230,6 +233,39 @@ function drawDrag() {
   
 //   return speed;
 // }
+
+function ridders(x0, x2, angle, xDist, result, iterations) {
+    let x1 = (x0 + x2) / 2;
+
+    let y0 = eq(x0, angle, new Vector(0, 0, 0), xDist) - result;
+    let y1 = eq(x1, angle, new Vector(0, 0, 0), xDist) - result;
+    let y2 = eq(x2, angle, new Vector(0, 0, 0), xDist) - result;
+
+    let x3 = x1 + (x1 - x0) * Math.sign(y0)*y1/Math.sqrt((y1*y1)-(y0*y2));
+    let y3 = eq(x3, angle, new Vector(0, 0, 0), xDist) - result;
+  
+    if(iterations > 0 && Math.abs(y3) > 0.01) {
+        let nx0;
+
+        if(y1*y3 < 0) {
+            nx0 = x1;
+        } else {
+            if(Math.sign(x3) == Math.sign(x2)) {
+                nx0 = x0;
+            } else {
+                nx0 = x2;
+            }
+        }
+
+        if(x3 < nx0) {
+            return ridders(x3, nx0, angle, xDist, result, iterations - 1);
+        } else {
+            return ridders(nx0, x3, angle, xDist, result, iterations - 1);
+        }
+    } else {
+        return x3;
+    }
+}
 
 function eq(speed, angle, velo, xDist) {
   if(xDist == 0) {
