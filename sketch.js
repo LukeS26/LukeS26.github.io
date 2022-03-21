@@ -1,4 +1,4 @@
-let angle, speed, x, h, initX, initZ, angularVelo, autoAngle, autoSpeed, drawCircle;
+let angle, speed, minError, maxError, x, h, initX, initZ, angularVelo, autoAngle, autoSpeed, drawCircle;
 let turn = 0;
 //1 meter = 100 px;
 let scl = 100;
@@ -150,6 +150,10 @@ function calcSpeed() {
   let i = 0;
   
   chosenSpeed = ridders(3.5, 13.5, (a), x1, result, 20);
+	
+  minError = ridders(3.5, 13.5, a, x1 + 0.3048, 20);
+  maxError = ridders(3.5, 13.5, a, x1 - 0.3048, 20);
+  
   let error = result - eq(chosenSpeed, a, velocity, x1);
   
 //   while(Math.abs(error) > 0.1 && i < 1000) {
@@ -169,7 +173,18 @@ function calcSpeed() {
   let vX = initX.value() + Math.cos(a) * Math.cos(turn) * chosenSpeed;
   let initDrag = 0.2 * 0.01456 * 1290 * Math.PI * vX * vX / 270;
   let time = x1 / (velocity.x + chosenSpeed * Math.cos(a) * Math.cos(turn));
+	
+  let vXMax = Math.cos(a) * maxError;
+  let initDragMax = 0.2 * 1.225 * 0.0145564225 * Math.PI * vXMax * vXMax / 0.27;
+  let timeMax = (x1+0.308) / ( maxError * Math.cos(a) );
+
+  let vXMin = Math.cos(angle) * minError;
+  let initDragMin = 0.2 * 1.225 * 0.0145564225 * Math.PI * vXMin * vXMin / 0.27;
+  let timeMin = (x1-0.308) / ( minError * Math.cos(a) );
   
+  minError += (initDragMin * timeMin * timeMin * 0.5);
+  maxError += (initDragMax * timeMax * timeMax * 0.5);
+	
   if(autoAngle.checked()) {
     angle.value( degrees(a) );
   }
