@@ -106,7 +106,9 @@ function draw() {
   }
   endShape();
 
-  drawDrag();
+  drawDrag(speed.value());
+  drawDrag(minError);
+  drawDrag(maxError);
 
   pop();
 }
@@ -149,10 +151,10 @@ function calcSpeed() {
   let t = Date.now();
   let i = 0;
   
-  chosenSpeed = ridders(3.5, 13.5, (a), x1, result, 20);
-	
-  minError = ridders(3.5, 13.5, a, x1 + 0.3048, 20);
-  maxError = ridders(3.5, 13.5, a, x1 - 0.3048, 20);
+  chosenSpeed = ridders(3.5, 13.5, a, x1, result, 20);
+  
+  minError = ridders(3.5, 13.5, a, x1 - 0.3048, result, 20);
+  maxError = ridders(3.5, 13.5, a, x1 + 0.3048, result,  20);
   
   let error = result - eq(chosenSpeed, a, velocity, x1);
   
@@ -173,25 +175,23 @@ function calcSpeed() {
   let vX = initX.value() + Math.cos(a) * Math.cos(turn) * chosenSpeed;
   let initDrag = 0.2 * 0.01456 * 1290 * Math.PI * vX * vX / 270;
   let time = x1 / (velocity.x + chosenSpeed * Math.cos(a) * Math.cos(turn));
-	
+  
   let vXMax = Math.cos(a) * maxError;
   let initDragMax = 0.2 * 1.225 * 0.0145564225 * Math.PI * vXMax * vXMax / 0.27;
   let timeMax = (x1+0.308) / ( maxError * Math.cos(a) );
 
-  let vXMin = Math.cos(angle) * minError;
+  let vXMin = Math.cos(a) * minError;
   let initDragMin = 0.2 * 1.225 * 0.0145564225 * Math.PI * vXMin * vXMin / 0.27;
   let timeMin = (x1-0.308) / ( minError * Math.cos(a) );
   
-  minError += (initDragMin * timeMin * timeMin * 0.5);
-  maxError += (initDragMax * timeMax * timeMax * 0.5);
-	
-  console.log("(" + minError + ", " + maxError + ")");
-	
+  minError += (initDragMin * timeMin * timeMin * 0.45);
+  maxError += (initDragMax * timeMax * timeMax * 0.45);
+    
   if(autoAngle.checked()) {
     angle.value( degrees(a) );
   }
   if (autoSpeed.checked()) {
-    speed.value( chosenSpeed + (initDrag * time * time * 0.5) );
+    speed.value( chosenSpeed + (initDrag * time * time * 0.45) );
   }
   
   t = Date.now() - t;
@@ -206,9 +206,9 @@ function calcSpeed() {
   //+ Math.sqrt(Math.sqrt(x1 - 1)) * sin(a) * sin(a) * sin(a) * sin(a) + velocity.x/2 
 }
 
-function drawDrag() {
-  let vX0 = initX.value() + cos(radians(angle.value())) * cos(turn) * speed.value();
-  let vY0 = sin(radians(angle.value())) * speed.value();
+function drawDrag(speed) {
+  let vX0 = initX.value() + cos(radians(angle.value())) * cos(turn) * speed;
+  let vY0 = sin(radians(angle.value())) * speed;
   let vX = vX0;
   let vY = vY0;
   let pX = 0;
@@ -291,13 +291,13 @@ function eq(speed, angle, velo, xDist) {
   
   //return speed * sin(angle) - 4.9;
   
-	return (speed * xDist * Math.sin(angle) / (velo.x + (speed * Math.cos(turn) * Math.cos(angle) )) ) -  9.80665/2 * xDist * xDist / ((velo.x * velo.x) + (2*velo.x * speed * Math.cos(turn) * Math.cos(angle)) + (speed*Math.cos(turn)*Math.cos(angle)*speed*Math.cos(turn)*Math.cos(angle)) );
+  return (speed * xDist * Math.sin(angle) / (velo.x + (speed * Math.cos(turn) * Math.cos(angle) )) ) -  9.80665/2 * xDist * xDist / ((velo.x * velo.x) + (2*velo.x * speed * Math.cos(turn) * Math.cos(angle)) + (speed*Math.cos(turn)*Math.cos(angle)*speed*Math.cos(turn)*Math.cos(angle)) );
 }
 
 function Vector(x, y, z) {
-	this.x = x;
-	this.y = y;
-	this.z = z;
+  this.x = x;
+  this.y = y;
+  this.z = z;
 }
 
 const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
