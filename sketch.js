@@ -185,6 +185,8 @@ function calcSpeed() {
   minError += (initDragMin * timeMin * timeMin * 0.5);
   maxError += (initDragMax * timeMax * timeMax * 0.5);
 	
+  console.log("(" + minError + ", " + maxError + ")");
+	
   if(autoAngle.checked()) {
     angle.value( degrees(a) );
   }
